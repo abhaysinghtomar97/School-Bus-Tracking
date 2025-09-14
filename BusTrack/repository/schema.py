@@ -1,17 +1,34 @@
 # contains marshmallow schema models,which should be return as json output on api call
+
 from BusTrack import ma
-from marshmallow import fields as f
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
+from BusTrack.repository.models.User import User
+from BusTrack.repository.models.Kid import Kid
+from BusTrack.repository.models.Bus import Bus
 
-
-class UserSchema(ma.Schema):
+class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
-        # Fields to expose
-        fields = ('first_name', 'last_name', 'phone', 'address')
+        model = User
+        load_instance = True
+    id = auto_field()
+    first_name = auto_field()
+    last_name = auto_field()
+    phone = auto_field()
+    address = auto_field()
 
 
-class UserLoginSchema(ma.Schema):
+
+from BusTrack.repository.models.UserLogin import UserLogin
+
+class UserLoginSchema(SQLAlchemyAutoSchema):
     class Meta:
-        fields = ('email', 'phone', 'api_token', 'user_id')
+        model = UserLogin
+        load_instance = True
+    id = auto_field()
+    email = auto_field()
+    phone = auto_field()
+    api_token = auto_field()
+    user_id = auto_field()
 
 
 class BasicBusSchema(ma.Schema):
@@ -19,17 +36,27 @@ class BasicBusSchema(ma.Schema):
         fields = ('id', 'name', 'vehicle_number')
 
 
-class KidProfileSchema(ma.Schema):
+class KidProfileSchema(SQLAlchemyAutoSchema):
     class Meta:
-        fields = ('id', 'name', 'section', 'photo', 'parent', 'bus')
+        model = Kid
+        load_instance = True
+    id = auto_field()
+    name = auto_field()
+    section = auto_field()
+    photo = auto_field()
+    parent = ma.Nested(UserSchema)
+    bus = ma.Nested(BasicBusSchema)
 
-    parent = f.Nested(UserSchema)
-    bus = f.Nested(BasicBusSchema)
 
 
-class KidsProfileSchema(ma.Schema):
+class KidsProfileSchema(SQLAlchemyAutoSchema):
     class Meta:
-        fields = ('id', 'name', 'section', 'photo')
+        model = Kid
+        load_instance = True
+    id = auto_field()
+    name = auto_field()
+    section = auto_field()
+    photo = auto_field()
 
 
 # prop to export

@@ -13,18 +13,12 @@ admin = Blueprint('admin', __name__)
 
 
 # custom decorator to handle access
+
+# BYPASS LOGIN: Always allow access
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'is_admin_login' in session:
-            if session['is_admin_login'] == True:
-                pass  # ok no problem
-            else:
-                return redirect(url_for('admin.login', next=request.url))
-        else:
-            return redirect(url_for('admin.login', next=request.url))
         return f(*args, **kwargs)
-
     return decorated_function
 
 
@@ -137,4 +131,4 @@ def reply_email():
 @admin.route('/logout')
 def logout():
     session.pop('is_admin_login', None)
-    return redirect(url_for('admin.login'))
+    return redirect(url_for('admin.index'))

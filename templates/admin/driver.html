@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Driver Management</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.username.label }} {{ form.username(size=32) }}
+    </div>
+    <div>
+        {{ form.password.label }} {{ form.password(size=32) }}
+    </div>
+    <div>
+        {{ form.name.label }} {{ form.name(size=32) }}
+    </div>
+    <div>
+        {{ form.contact.label }} {{ form.contact(size=32) }}
+    </div>
+    <div>
+        <label for="bus">Bus</label>
+        <select name="bus" id="bus">
+            {% for bus in bus_data %}
+                <option value="{{ bus[0] }}">{{ bus[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit">Add Driver</button>
+</form>
+
+<h3>Allocated Drivers</h3>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Bus</th>
+    </tr>
+    {% for driver in driver_list %}
+    <tr>
+        <td>{{ driver[1] }}</td>
+        <td>{{ driver[2] }}</td>
+        <td>{{ driver[4] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
